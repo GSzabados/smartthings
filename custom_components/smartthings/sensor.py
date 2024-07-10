@@ -655,12 +655,14 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
         super().__init__(device)
         self._component = component
         self._attribute = attribute
-        if self._component == "main":
-            self._attr_name = f"{device.label} {name}"
-            self._attr_unique_id = f"{device.device_id}.{attribute}"
-        else:
-            self._attr_name = f"{device.label} {component} {name}"
-            self._attr_unique_id = f"{device.device_id}.{component}.{attribute}"
+        #if self._component == "main":
+        #    self._attr_name = f"{device.label} {name}"
+        #    self._attr_unique_id = f"{device.device_id}.{attribute}"
+        #else:
+        #    self._attr_name = f"{device.label} {component} {name}"
+        #    self._attr_unique_id = f"{device.device_id}.{component}.{attribute}"
+        self._attr_name = f"{device.label} {component} {name}"
+        self._attr_unique_id = f"{device.device_id}.{component}.{attribute}"
         self._attr_device_class = device_class
         self._default_unit = default_unit
         self._attr_state_class = state_class
@@ -669,15 +671,19 @@ class SmartThingsSensor(SmartThingsEntity, SensorEntity):
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        if self._component == "main":
-            value = self._device.status.attributes[self._attribute].value
-        else:
-            value = (
-                self._device.status.components[self._component]
-                .attributes[self._attribute]
-                .value
-            )
-
+        #if self._component == "main":
+        #    value = self._device.status.attributes[self._attribute].value
+        #else:
+        #    value = (
+        #        self._device.status.components[self._component]
+        #        .attributes[self._attribute]
+        #        .value
+        #    )
+        value = (
+            self._device.status.components[self._component]
+            .attributes[self._attribute]
+            .value
+        )
         if self.device_class != SensorDeviceClass.TIMESTAMP:
             return value
 
@@ -723,12 +729,14 @@ class SmartThingsPowerConsumptionSensor(SmartThingsEntity, SensorEntity):
         super().__init__(device)
         self._component = component
         self.report_name = report_name
-        if component == "main":
-            self._attr_name = f"{device.label} {report_name}"
-            self._attr_unique_id = f"{device.device_id}.{report_name}_meter"
-        else:
-            self._attr_name = f"{device.label} {component} {report_name}"
-            self._attr_unique_id = f"{device.device_id}.{component}.{report_name}_meter"
+        #if component == "main":
+        #    self._attr_name = f"{device.label} {report_name}"
+        #    self._attr_unique_id = f"{device.device_id}.{report_name}_meter"
+        #else:
+        #    self._attr_name = f"{device.label} {component} {report_name}"
+        #    self._attr_unique_id = f"{device.device_id}.{component}.{report_name}_meter"
+        self._attr_name = f"{device.label} {component} {report_name}"
+        self._attr_unique_id = f"{device.device_id}.{component}.{report_name}_meter"
         if self.report_name == "power":
             self._attr_state_class = SensorStateClass.MEASUREMENT
             self._attr_device_class = SensorDeviceClass.POWER
@@ -741,14 +749,19 @@ class SmartThingsPowerConsumptionSensor(SmartThingsEntity, SensorEntity):
     @property
     def native_value(self):
         """Return the state of the sensor."""
-        if self._component == "main":
-            value = self._device.status.attributes[Attribute.power_consumption].value
-        else:
-            value = (
-                self._device.status.components[self._component]
-                .attributes[Attribute.power_consumption]
-                .value
-            )
+        #if self._component == "main":
+        #    value = self._device.status.attributes[Attribute.power_consumption].value
+        #else:
+        #    value = (
+        #        self._device.status.components[self._component]
+        #        .attributes[Attribute.power_consumption]
+        #        .value
+        #    )
+        value = (
+            self._device.status.components[self._component]
+            .attributes[Attribute.power_consumption]
+            .value
+        )
         if value is None or value.get(self.report_name) is None:
             return None
         if self.report_name == "power":
@@ -765,12 +778,15 @@ class SmartThingsPowerConsumptionSensor(SmartThingsEntity, SensorEntity):
             ]
             state_attributes = {}
             for attribute in attributes:
-                if self._component == "main":
-                    value = getattr(self._device.status, attribute)
-                else:
-                    value = getattr(
-                        self._device.status.components[self._component], attribute
-                    )
+                #if self._component == "main":
+                #    value = getattr(self._device.status, attribute)
+                #else:
+                #    value = getattr(
+                #        self._device.status.components[self._component], attribute
+                #    )
+                value = getattr(
+                    self._device.status.components[self._component], attribute
+                )
                 if value is not None:
                     state_attributes[attribute] = value
             return state_attributes
