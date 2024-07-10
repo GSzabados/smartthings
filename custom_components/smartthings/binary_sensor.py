@@ -81,18 +81,20 @@ class SmartThingsBinarySensor(SmartThingsEntity, BinarySensorEntity):
         super().__init__(device)
         self._component = component
         self._attribute = attribute
-        if self._component == "main":
-            self._attr_name = f"{device.label} {attribute}"
-            self._attr_unique_id = f"{device.device_id}.{attribute}"
-        else:
-            self._attr_name = f"{device.label} {component} {attribute}"
-            self._attr_unique_id = f"{device.device_id}.{component}.{attribute}"
+        #if self._component == "main":
+        #    self._attr_name = f"{device.label} {attribute}"
+        #    self._attr_unique_id = f"{device.device_id}.{attribute}"
+        #else:
+        #    self._attr_name = f"{device.label} {component} {attribute}"
+        #    self._attr_unique_id = f"{device.device_id}.{component}.{attribute}"
+        self._attr_name = f"{device.label} {component} {attribute}"
+        self._attr_unique_id = f"{device.device_id}.{component}.{attribute}"
         self._attr_device_class = ATTRIB_TO_CLASS[attribute]
         self._attr_entity_category = ATTRIB_TO_ENTTIY_CATEGORY.get(attribute)
 
     @property
     def is_on(self):
         """Return true if the binary sensor is on."""
-        if self._component == "main":
-            return self._device.status.is_on(self._attribute)
+        #if self._component == "main":
+        #    return self._device.status.is_on(self._attribute)
         return self._device.status.components[self._component].is_on(self._attribute)
