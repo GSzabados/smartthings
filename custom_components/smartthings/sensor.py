@@ -6,8 +6,8 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import NamedTuple
 
-from pysmartthing import Attribute, Capability
-from pysmartthing.device import DeviceEntity
+from pysmartthings import Attribute, Capability
+from pysmartthings.device import DeviceEntity
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
