@@ -6,8 +6,8 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import NamedTuple
 
-from pysmartthings import Attribute, Capability
-from pysmartthings.device import DeviceEntity
+from pysmartthingscustom import Attribute, Capability
+from pysmartthingscustom.device import DeviceEntity
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -16,7 +16,6 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
-    AREA_SQUARE_METERS,
     CONCENTRATION_PARTS_PER_MILLION,
     LIGHT_LUX,
     PERCENTAGE,
@@ -27,6 +26,7 @@ from homeassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
     UnitOfVolume,
+    UnitOfArea,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -95,7 +95,7 @@ CAPABILITY_TO_SENSORS: dict[str, list[Map]] = {
         Map(
             Attribute.bmi_measurement,
             "Body Mass Index",
-            f"{UnitOfMass.KILOGRAMS}/{AREA_SQUARE_METERS}",
+            f"{UnitOfMass.KILOGRAMS}/{UnitOfArea.SQUARE_METERS}",
             None,
             SensorStateClass.MEASUREMENT,
             None,
